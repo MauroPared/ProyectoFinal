@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Categorías - Blog IA{% endblock %}
+
+{% block content %}
+    <h1>Categorías</h1>
+    <ul>
+    {% for categoria in categorias %}
+        <li><a href="{% url 'posts_por_categoria' categoria.id %}">{{ categoria.nombre }}</a></li>
+    {% empty %}
+        <p>No hay categorías.</p>
+    {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,21 +1,20 @@
 {% extends "base.html" %}
 
-{% block title %}Inicio{% endblock %}
+{% block title %}Todos los Posts{% endblock %}
 
 {% block content %}
-<h2>Últimos posts</h2>
+<h2>Todos los Posts</h2>
 
 {% if posts %}
     {% for post in posts %}
         <article>
             <h3>{{ post.titulo }}</h3>
             <p><small>Por {{ post.autor }} | {{ post.fecha_creacion|date:"d/m/Y H:i" }}</small></p>
-            <p>{{ post.contenido|truncatewords:20 }}</p>
+            <p>{{ post.contenido|truncatewords:30 }}</p>
             <a href="{% url 'detalles_post' post.id %}">Leer más</a>
         </article>
         <hr>
     {% endfor %}
-    <a href="{% url 'lista_posts' %}">Ver mas</a>
 {% else %}
     <p>No hay posts todavía.</p>
 {% endif %}

@@ -35,7 +35,7 @@ def nuevo_post(request):
             nuevo_post = form.save(commit=False)
             nuevo_post.autor = request.user
             nuevo_post.save()
-            return redirect('Blog-Inicio')
+            return redirect('Inicio')
     else:
         form = PostForm()
     return render(request, 'posts/nuevo_post.html', {'form': form})

@@ -1,23 +1,40 @@
 {% extends "base.html" %}
 
-{% block title %}Inicio{% endblock %}
+{% block title %}{{ post.titulo }}{% endblock %}
 
 {% block content %}
-<h2>Últimos posts</h2>
+<article>
+    <h2>{{ post.titulo }}</h2>
+    <p><small>Por {{ post.autor }} | {{ post.fecha_creacion|date:"d/m/Y H:i" }}</small></p>
+    <p>{{ post.contenido }}</p>
+</article>
 
-{% if posts %}
-    {% for post in posts %}
-        <article>
-            <h3>{{ post.titulo }}</h3>
-            <p><small>Por {{ post.autor }} | {{ post.fecha_creacion|date:"d/m/Y H:i" }}</small></p>
-            <p>{{ post.contenido|truncatewords:20 }}</p>
-            <a href="{% url 'detalles_post' post.id %}">Leer más</a>
-        </article>
-        <hr>
-    {% endfor %}
-    <a href="{% url 'lista_posts' %}">Ver mas</a>
+<hr>
+
+<h3>Comentarios</h3>
+{% if comentarios %}
+    <ul>
+        {% for comentario in comentarios %}
+            <li>
+                <strong>{{ comentario.autor }}</strong>
+                <em>{{ comentario.fecha_creacion|date:"d/m/Y H:i" }}</em>
+                <p>{{ comentario.contenido }}</p>
+            </li>
+        {% endfor %}
+    </ul>
 {% else %}
-    <p>No hay posts todavía.</p>
+    <p>No hay comentarios todavía.</p>
+{% endif %}
+
+{% if user.is_authenticated %}
+    <h4>Agregar un comentario</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Comentar</button>
+    </form>
+{% else %}
+    <p><a href="{% url 'login' %}">Inicia sesión</a> para comentar.</p>
 {% endif %}
 
 {% endblock %}

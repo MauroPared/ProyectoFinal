@@ -14,5 +14,3 @@ def Registrarse(request):
         form = UserCreationForm()
     return render(request, 'usuarios/registro.html', {'form': form})
 
-def Loguearse(request):
-    return render(request, 'usuarios/login.html')

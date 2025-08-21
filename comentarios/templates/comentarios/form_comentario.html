@@ -1,11 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Agregar comentario{% endblock %}
 
+{% extends "base.html" %}
+
+{% block title %}Agregar comentario{% endblock %}
+
 {% block content %}
-<h2>Comentar en "{{ post.titulo }}"</h2>
+<h2>Comentar en: {{ post.titulo }}</h2>
+
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Enviar</button>
+    <button type="submit">Publicar comentario</button>
 </form>
+
+<a href="{% url 'detalles_post' post.id %}">Volver al post</a>
 {% endblock %}

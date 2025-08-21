@@ -8,12 +8,19 @@
 <body>
     <header>
         <nav>
-            <a href="{% url 'Blog-Inicio' %}">Inicio</a>
-            <a href="#">Categorias</a>
-            <a href="#">Acerca De</a>
-            <a href="#">Contacto</a>
-            <a href="#">Iniciar Sesión</a>
-        </nav>
+            <a href="{% url 'Inicio' %}">Inicio</a>
+            <a href="{% url 'Acerca' %}">Acerca de</a>
+            <a href="{% url 'Contacto' %}">Contacto</a>
+            <a href="{% url 'lista_posts' %}">Posts</a>
+            <a href="{% url 'categorias_lista' %}">Categorías</a>
+        
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}">Cerrar sesión ({{ user.username }})</a>
+            {% else %}
+                <a href="{% url 'login' %}">Iniciar sesión</a>
+                <a href="{% url 'registrarse' %}">Registrarse</a>
+            {% endif %}
+</nav>
         <hr>
     </header>
     <main>

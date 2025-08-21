@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .forms import ComentarioForm
 from .models import Comentario
 from posts.models import Post
-from .forms import ComentarioForm
 
+
+@login_required
 def agregar_comentario(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.method == 'POST':
@@ -15,4 +18,4 @@ def agregar_comentario(request, post_id):
             return redirect('detalles_post', post_id=post.id)
     else:
         form = ComentarioForm()
-    return render(request, 'comentarios/form_comentario.html', {'form': form, 'post': post})
+    return render(request, 'comentarios/agregar_comentario.html', {'form': form, 'post': post})

@@ -7,6 +7,12 @@
     <h2>{{ post.titulo }}</h2>
     <p><small>Por {{ post.autor }} | {{ post.fecha_creacion|date:"d/m/Y H:i" }}</small></p>
     <p>{{ post.contenido }}</p>
+
+    <!-- Enlaces de edición y eliminación, solo para el autor -->
+    {% if user.is_authenticated and user == post.autor %}
+        <a href="{% url 'editar_post' post.id %}">Editar post</a>
+        <a href="{% url 'eliminar_post' post.id %}">Eliminar post</a>
+    {% endif %}
 </article>
 
 <hr>
@@ -16,9 +22,9 @@
     <ul>
         {% for comentario in comentarios %}
             <li>
-                <strong>{{ comentario.autor }}</strong>
-                <em>{{ comentario.fecha_creacion|date:"d/m/Y H:i" }}</em>
-                <p>{{ comentario.contenido }}</p>
+               <strong>{{ comentario.autor }}</strong>
+               <em>{{ comentario.fecha|date:"d/m/Y H:i" }}</em>
+               <p>{{ comentario.contenido }}</p>
             </li>
         {% endfor %}
     </ul>
@@ -30,7 +36,7 @@
     <h4>Agregar un comentario</h4>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form_comentario.as_p }}
         <button type="submit">Comentar</button>
     </form>
 {% else %}

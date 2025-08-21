@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = '/usuarios/login/'
+LOGIN_REDIRECT_URL = 'Inicio'   # A dónde va después de loguearse
+LOGOUT_REDIRECT_URL = 'Inicio' # Después del logout
+
 
 # Application definition
 

@@ -25,10 +25,15 @@ SECRET_KEY = 'django-insecure-kmuyb3j-!59@d#cn#y@!0mms=kxh%!4lul_&5j-$*&#=(u18#a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['MauroPared.pythonanywhere.com']
 
 STATIC_URL = '/static/'
+
+#Para desarrollo
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
+# Para produccion
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 LOGIN_URL = '/usuarios/login/'

@@ -4,7 +4,7 @@ from .models import Post
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['titulo', 'contenido', 'categoria']  # agregar campos que quieras editar
+        fields = ['titulo', 'contenido', 'categoria']  
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'contenido': forms.Textarea(attrs={'class': 'form-control'}),

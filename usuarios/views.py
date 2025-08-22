@@ -17,7 +17,6 @@ def Registrarse(request):
 
 @login_required
 def perfil(request):
-    
     ultimos_posts = Post.objects.filter(autor=request.user).order_by('-fecha_creacion')[:5]
     return render(request, 'usuarios/perfil.html', {'ultimos_posts': ultimos_posts})
 

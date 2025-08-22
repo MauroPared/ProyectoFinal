@@ -59,20 +59,20 @@ def lista_posts(request):
 @login_required
 def editar_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    
-    # Verificación de seguridad: solo el autor puede editar el post
+
+    # Solo moderadores (staff) pueden editar
     if not request.user.is_staff:
-       return redirect('detalles_post', post_id=post.id) # Redirige al post si no es moderador
-    
+        return redirect('detalles_post', post_id=post.id)
+
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
-            return redirect('detalles_post', post_id=post.id)              
-        else:
-            form = PostForm(instance=post)
-            
-    return render(request, 'posts/editar_post.html', {'form': form, 'posts':post})
+            return redirect('detalles_post', post_id=post.id)
+    else:
+        form = PostForm(instance=post)  # 🔹 IMPORTANTE: siempre inicializar form en GET
+
+    return render(request, 'posts/editar_post.html', {'form': form, 'post': post})
 
 @login_required
 def eliminar_post(request, post_id):

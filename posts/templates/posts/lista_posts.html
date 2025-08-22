@@ -1,22 +1,42 @@
 {% extends "base.html" %}
 
-{% block title %}Todos los Posts{% endblock %}
-
 {% block content %}
-<h2>Todos los Posts</h2>
+<h2>Publicaciones</h2>
 
-{% if posts %}
-    {% for post in posts %}
-        <article>
-            <h3>{{ post.titulo }}</h3>
-            <p><small>Por {{ post.autor }} | {{ post.fecha_creacion|date:"d/m/Y H:i" }}</small></p>
-            <p>{{ post.contenido|truncatewords:30 }}</p>
-            <a href="{% url 'detalles_post' post.id %}">Leer más</a>
-        </article>
-        <hr>
-    {% endfor %}
-{% else %}
-    <p>No hay posts todavía.</p>
-{% endif %}
+<form method="get" class="filtros">
+    <label for="categoria">Categoría:</label>
+    <select name="categoria" id="categoria">
+        <option value="">-- Todas --</option>
+        {% for cat in categorias %}
+            <option value="{{ cat.id }}" {% if request.GET.categoria == cat.id|stringformat:"s" %}selected{% endif %}>
+                {{ cat.nombre }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label for="orden">Ordenar por:</label>
+    <select name="orden" id="orden">
+        <option value="">-- Ninguno --</option>
+        <option value="antiguedad_asc" {% if request.GET.orden == 'antiguedad_asc' %}selected{% endif %}>Antigüedad ↑</option>
+        <option value="antiguedad_desc" {% if request.GET.orden == 'antiguedad_desc' %}selected{% endif %}>Antigüedad ↓</option>
+        <option value="alfabetico_asc" {% if request.GET.orden == 'alfabetico_asc' %}selected{% endif %}>A-Z</option>
+        <option value="alfabetico_desc" {% if request.GET.orden == 'alfabetico_desc' %}selected{% endif %}>Z-A</option>
+    </select>
+
+    <button type="submit">Aplicar</button>
+</form>
+
+<hr>
+
+{% for post in posts %}
+    <article>
+        <h3><a href="{% url 'detalles_post' post.id %}">{{ post.titulo }}</a></h3>
+        <p><small>{{ post.categoria }} | {{ post.fecha_creacion|date:"d/m/Y H:i" }}</small></p>
+        <p>{{ post.contenido|truncatewords:25 }}</p>
+    </article>
+    <hr>
+{% empty %}
+    <p>No hay publicaciones.</p>
+{% endfor %}
 
 {% endblock %}

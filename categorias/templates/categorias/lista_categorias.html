@@ -1,14 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}Categorías - Blog IA{% endblock %}
-
 {% block content %}
-    <h1>Categorías</h1>
-    <ul>
+<div class="category-header">
+    <h2 class="category-title">Categorías</h2>
+</div>
+
+<div class="categories-container">
     {% for categoria in categorias %}
-        <li><a href="{% url 'posts_por_categoria' categoria.id %}">{{ categoria.nombre }}</a></li>
+    <a href="{% url 'posts_por_categoria' categoria.slug %}" class="category-card">
+        <div class="category-name">{{ categoria.nombre }}</div>
+        <div class="category-description">
+            {{ categoria.descripcion|default:"Sin descripción" }}
+        </div>
+        <div class="category-meta">
+            <span class="category-status active">Activa</span>
+            <span>{{ categoria.posts.count }} posts</span>
+        </div>
+    </a>
     {% empty %}
-        <p>No hay categorías.</p>
+        <p>No hay categorías creadas.</p>
     {% endfor %}
-    </ul>
+</div>
 {% endblock %}

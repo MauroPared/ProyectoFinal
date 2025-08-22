@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+
 LOGIN_URL = '/usuarios/login/'
 LOGIN_REDIRECT_URL = 'Inicio'   # A dónde va después de loguearse
 LOGOUT_REDIRECT_URL = 'Inicio' # Después del logout
@@ -70,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'paginas.context_processors.categorias_context',
             ],
         },
     },

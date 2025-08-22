@@ -2,16 +2,16 @@
 {% block title %}{{ categoria.nombre }}{% endblock %}
 
 {% block content %}
-<h2>Posts en {{ categoria.nombre }}</h2>
-
+<h2>Posts en “{{ categoria.nombre }}”</h2>
 {% for post in posts %}
-    <article>
-        <h3>{{ post.titulo }}</h3>
-        <p>{{ post.contenido|truncatewords:20 }}</p>
-        <a href="{% url 'detalles_post' post.id %}">Leer más</a>
-    </article>
+  <article>
+    <h3><a href="{% url 'detalles_post' post.id %}">{{ post.titulo }}</a></h3>
+    <p><small>Por {{ post.autor }} | {{ post.fecha_creacion|date:"d/m/Y H:i" }}</small></p>
+    <p>{{ post.contenido|truncatewords:35 }}</p>
+  </article>
+  <hr>
 {% empty %}
-    <p>No hay posts en esta categoría.</p>
+  <p>No hay posts en esta categoría.</p>
 {% endfor %}
 
 {% endblock %}

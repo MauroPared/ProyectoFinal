@@ -4,34 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %} Blog IA {% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header>
         <nav>
-            <a href="{% url 'Inicio' %}">Inicio</a>
-            <a href="{% url 'Acerca' %}">Acerca de</a>
-            <a href="{% url 'Contacto' %}">Contacto</a>
-            <a href="{% url 'lista_posts' %}">Posts</a>
-            <a href="{% url 'categorias_lista' %}">Categorías</a>
-            <a href="{% url 'perfil' %}">Mi Perfil</a>
-        
-            {% if user.is_authenticated %}
-                <form action="{% url 'logout' %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit">Cerrar sesión</button>
-                </form>
-            {% else %}
-                <a href="{% url 'login' %}">Iniciar sesión</a>
-                <a href="{% url 'Registrarse' %}">Registrarse</a>
-            {% endif %}
-</nav>
-        <hr>
+            <div class="left-links">
+                <a href="{% url 'Inicio' %}">Inicio</a>
+                <a href="{% url 'Acerca' %}">Acerca de</a>
+                <a href="{% url 'Contacto' %}">Contacto</a>
+                <a href="{% url 'lista_posts' %}">Posts</a>
+                <a href="{% url 'categorias_lista' %}">Categorías</a>
+            </div>
+            <div class="right-links">
+                {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                        <a href="{% url 'nuevo_post' %}">Nuevo Post</a>
+                    {% endif %}
+                    <a href="{% url 'perfil' %}">Mi Perfil ({{ user.username }})</a>
+                    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Cerrar sesión</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Iniciar sesión</a>
+                    <a href="{% url 'Registrarse' %}">Registrarse</a>
+                {% endif %}
+            </div>
+        </nav>
     </header>
-    <main>
-        {% block content %}
 
-        {% endblock %}
-        
+    <main>
+        {% block content %}{% endblock %}
     </main>
 
     <footer>

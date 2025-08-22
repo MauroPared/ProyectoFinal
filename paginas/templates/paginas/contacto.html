@@ -3,13 +3,10 @@
 {% block title %}Contacto{% endblock %}
 
 {% block content %}
-    <h1>Formulario de contacto</h1>
-    <form method="post">
-        {% csrf_token %}
-        <label>Nombre:</label>
-        <input type="text" name="nombre"><br>
-        <label>Mensaje:</label>
-        <textarea name="mensaje"></textarea><br>
-        <button type="submit">Enviar</button>
-    </form>
+<h2>Formulario de Contacto</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar</button>
+</form>
 {% endblock %}

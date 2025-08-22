@@ -1,43 +1,62 @@
 {% extends "base.html" %}
 
-{% block title %}{{ post.titulo }}{% endblock %}
-
 {% block content %}
-<article>
+
+<div class="post-detalle">
     <h2>{{ post.titulo }}</h2>
-    <p><small>Por {{ post.autor }} | {{ post.fecha_creacion|date:"d/m/Y H:i" }}</small></p>
+    <p><strong>Autor:</strong> {{ post.autor }}</p>
     <p>{{ post.contenido }}</p>
 
-    <!-- Enlaces de edición y eliminación, solo para el autor -->
-    {% if user.is_authenticated and user == post.autor %}
-        <a href="{% url 'editar_post' post.id %}">Editar post</a>
-        <a href="{% url 'eliminar_post' post.id %}">Eliminar post</a>
+    <hr>
+
+    <!-- Botones de moderador -->
+    {% if user.is_authenticated and user.is_staff %}
+        <a href="{% url 'editar_post' post.id %}" class="btn btn-warning">Editar</a>
+        <a href="{% url 'eliminar_post' post.id %}" class="btn btn-danger"
+           onclick="return confirm('¿Seguro que quieres eliminar este post?');">
+           Eliminar
+        </a>
     {% endif %}
-</article>
+</div>
 
 <hr>
 
+<!-- Comentarios -->
 <h3>Comentarios</h3>
-{% if comentarios %}
-    <ul>
-        {% for comentario in comentarios %}
-            <li>
-               <strong>{{ comentario.autor }}</strong>
-               <em>{{ comentario.fecha|date:"d/m/Y H:i" }}</em>
-               <p>{{ comentario.contenido }}</p>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No hay comentarios todavía.</p>
-{% endif %}
+{% for comentario in post.comentarios.all %}
+    <div class="comentario">
+        <p><strong>{{ comentario.autor }}</strong>: {{ comentario.contenido }}</p>
 
+        <!-- Opciones de autor del comentario -->
+        {% if user.is_authenticated and user == comentario.autor %}
+            <a href="{% url 'editar_comentario' comentario.id %}" class="btn btn-sm btn-primary">Editar</a>
+            <a href="{% url 'eliminar_comentario' comentario.id %}" class="btn btn-sm btn-danger"
+               onclick="return confirm('¿Seguro que quieres eliminar tu comentario?');">
+               Eliminar
+            </a>
+        {% endif %}
+
+        <!-- Opciones extra solo para moderador -->
+        {% if user.is_authenticated and user.is_staff %}
+            <a href="{% url 'eliminar_comentario' comentario.id %}" class="btn btn-sm btn-danger"
+               onclick="return confirm('¿Seguro que quieres eliminar este comentario?');">
+               Eliminar (moderador)
+            </a>
+        {% endif %}
+    </div>
+{% empty %}
+    <p>No hay comentarios todavía.</p>
+{% endfor %}
+
+<hr>
+
+<!-- Formulario para agregar comentarios -->
 {% if user.is_authenticated %}
-    <h4>Agregar un comentario</h4>
+    <h4>Deja un comentario</h4>
     <form method="post">
         {% csrf_token %}
-        {{ form_comentario.as_p }}
-        <button type="submit">Comentar</button>
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Comentar</button>
     </form>
 {% else %}
     <p><a href="{% url 'login' %}">Inicia sesión</a> para comentar.</p>

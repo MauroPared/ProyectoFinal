@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-kmuyb3j-!59@d#cn#y@!0mms=kxh%!4lul_&5j-$*&#=(u18#a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['MauroPared.pythonanywhere.com']
+ALLOWED_HOSTS = ['MauroPared.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 STATIC_URL = '/static/'
 
